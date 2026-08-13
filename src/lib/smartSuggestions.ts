@@ -8,6 +8,12 @@ export interface SmartSuggestion {
 
 const STOP_WORDS = new Set(['the', 'a', 'an', 'to', 'of', 'in', 'for', 'and', 'trail', 'trek', 'route', 'track', 'walk', 'hike']);
 
+let TREKS_CACHE: Trek[] | null = null;
+function allTreks(): Trek[] {
+  if (!TREKS_CACHE) TREKS_CACHE = allTreks();
+  return TREKS_CACHE;
+}
+
 function normalize(input: string): string {
   return input.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
 }
@@ -69,7 +75,7 @@ export function searchTreksSmart(query: string, limit = 6): SmartSuggestion[] {
   const trimmed = query.trim();
   if (!trimmed) return [];
 
-  const all = getAllTreks();
+  const all = allTreks();
   const scored = all
     .map(trek => ({ trek, score: scoreQuery(trimmed, trek) }))
     .filter(s => s.score > 0)
@@ -100,7 +106,7 @@ function buildReason(query: string, trek: Trek): string {
 }
 
 export function getTopRecommended(limit = 6): SmartSuggestion[] {
-  const all = getAllTreks();
+  const all = allTreks();
   return all
     .map(trek => ({
       trek,
@@ -117,7 +123,7 @@ export function getRecommendationsFor(
   maxPrice?: number,
   limit = 6
 ): SmartSuggestion[] {
-  const all = getAllTreks();
+  const all = allTreks();
   return all
     .map(trek => {
       let score = (trek.rating || 0) * 10 + Math.min(trek.reviews || 0, 5000) / 100;

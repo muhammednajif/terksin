@@ -1,8 +1,6 @@
 import { useMemo, useRef, useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 import { Search, TrendingUp, MapPin, ArrowUpRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { searchTreksSmart, getTopRecommended, type SmartSuggestion } from '@/lib/smartSuggestions';
 import { useStore } from '@/store/useStore';
 
@@ -106,16 +104,11 @@ export const SmartSearch = ({ query, onQueryChange, onSearch }: SmartSearchProps
   };
 
   const panel = open && suggestions.length > 0 && pos ? (
-    createPortal(
-      <div id="smart-search-popup">
-        <motion.div
-          initial={{ opacity: 0, y: 8, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 8, scale: 0.98 }}
-          transition={{ duration: 0.15 }}
-          style={{ top: pos.top + 8, left: pos.left, width: Math.min(pos.width, 420) }}
-          className="fixed bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden z-[99999] text-left flex flex-col max-h-[70vh]"
-        >
+    <div id="smart-search-popup">
+      <div
+        style={{ top: pos.top + 8, left: pos.left, width: Math.min(pos.width, 420) }}
+        className="fixed bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden z-[99999] text-left flex flex-col max-h-[70vh]"
+      >
           <div className="px-4 py-2.5 flex items-center gap-2 border-b border-black/5 flex-shrink-0">
             {showPopular ? (
               <>
@@ -178,10 +171,8 @@ export const SmartSearch = ({ query, onQueryChange, onSearch }: SmartSearchProps
           >
             See all results for "{query}" →
           </button>
-        </motion.div>
-      </div>,
-      document.body
-    )
+      </div>
+    </div>
   ) : null;
 
   return (
@@ -196,7 +187,7 @@ export const SmartSearch = ({ query, onQueryChange, onSearch }: SmartSearchProps
         onKeyDown={handleKeyDown}
         className="bg-transparent border-none text-white focus:outline-none w-full text-sm md:text-base placeholder:text-white/40 cursor-pointer"
       />
-      <AnimatePresence>{panel}</AnimatePresence>
+      {panel}
     </div>
   );
 };
