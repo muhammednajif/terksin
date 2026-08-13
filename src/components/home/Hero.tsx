@@ -92,7 +92,6 @@ export const Hero = () => {
               customInput={<DateInput placeholder="Select Dates" />}
               dateFormat="MMM d, yyyy"
               monthsShown={1}
-              withPortal
               popperPlacement="bottom-start"
               popperProps={{ strategy: 'fixed' }}
               popperModifiers={[
@@ -160,14 +159,6 @@ export const Hero = () => {
                 font-weight: 700;
                 border: 1px solid #171717;
                 border-radius: 8px;
-              }
-              .react-datepicker__portal {
-                background: rgba(0,0,0,0.5);
-              }
-              .react-datepicker__portal .react-datepicker__current-month,
-              .react-datepicker__portal .react-datepicker__day-name,
-              .react-datepicker__portal .react-datepicker__day {
-                color: #171717;
               }
             `}</style>
           </div>
