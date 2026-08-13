@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treksin — Project Synopsis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  @page {
+    size: A4;
+    margin: 0.65in 0.7in;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.12;
+    color: #1a1a1a;
+  }
+  .page {
+    width: 100%;
+    padding: 0;
+  }
+  .title-main {
+    font-size: 20pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-align: center;
+    margin-bottom: 2pt;
+  }
+  .title-sub {
+    font-size: 12pt;
+    font-weight: 600;
+    text-align: center;
+    color: #2d6a4f;
+    margin-bottom: 14pt;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 20pt;
+    font-size: 9.5pt;
+    color: #555;
+    margin-bottom: 12pt;
+    flex-wrap: wrap;
+  }
+  .meta-row span { white-space: nowrap; }
+  h2 {
+    font-size: 12.5pt;
+    font-weight: 700;
+    margin-top: 12pt;
+    margin-bottom: 4pt;
+    color: #1a3a2a;
+    border-bottom: 1.5px solid #2d6a4f;
+    padding-bottom: 2pt;
+  }
+  h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    margin-top: 8pt;
+    margin-bottom: 3pt;
+    color: #2d6a4f;
+  }
+  p {
+    margin-bottom: 5pt;
+    text-align: justify;
+  }
+  ul, ol {
+    margin-left: 16pt;
+    margin-bottom: 5pt;
+  }
+  li {
+    margin-bottom: 2pt;
+    text-align: justify;
+  }
+  .obj-list {
+    list-style: decimal;
+    padding-left: 2pt;
+  }
+  .obj-list li {
+    margin-bottom: 3.5pt;
+    padding-left: 2pt;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+    font-size: 9.5pt;
+  }
+  th {
+    background: #e8f5ee;
+    font-weight: 600;
+    text-align: left;
+    padding: 3pt 6pt;
+    border: 0.5px solid #ccc;
+  }
+  td {
+    padding: 3pt 6pt;
+    border: 0.5px solid #ddd;
+  }
+  .page-break { page-break-before: always; }
+  .compact p { margin-bottom: 4pt; }
+  .section-scope p { margin-bottom: 3pt; }
+  .future p { margin-bottom: 4pt; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<div class="title-main">TREKSIN</div>
+<div class="title-sub">Smart Trekking Discovery, Planning, Safety and Community Platform</div>
+
+<div class="meta-row">
+  <span><strong>Project Type:</strong> Web Application</span>
+  <span><strong>Domain:</strong> Travel Technology / Social Community</span>
+  <span><strong>Target Users:</strong> Trekkers &amp; Adventure Travelers</span>
+</div>
+
+<h2>1. Introduction</h2>
+<p>Treksin is a web-based platform that brings together trekking discovery, trip planning, social community interaction, and expedition management within a single application. Users can browse trekking destinations across multiple continents, access detailed trek information, plan adventures with the assistance of an AI planner, participate in a trekking-focused social community, post stories and experiences, follow other trekkers, report safety-related information, and book organized expeditions. The platform is built using modern web technologies with a responsive design and aims to provide a centralized digital environment for the trekking community.</p>
+
+<h2>2. Problem Statement</h2>
+<p>Trek-related information is often scattered across multiple websites and platforms. Enthusiasts frequently need separate tools for discovering destinations, planning trips, reading reviews, connecting with other trekkers, and managing expedition logistics. New trekkers may find it difficult to organize reliable trip information in one place. Existing platforms rarely offer a fully integrated experience that combines destination discovery, AI-assisted planning, social networking, safety awareness, and expedition booking. Treksin attempts to address these gaps by offering a unified web platform tailored specifically to trekking and adventure travel.</p>
+
+<h2>3. Objectives</h2>
+<ol class="obj-list">
+  <li>To provide a centralized platform for discovering trekking destinations with relevant details such as difficulty, duration, distance, elevation, terrain, and best season.</li>
+  <li>To offer an AI-assisted trek planning experience that can generate personalized recommendations, itineraries, budget estimates, packing lists, and safety assessments.</li>
+  <li>To build a trekking-focused social community where users can create posts, share stories, interact through likes and comments, follow other trekkers, and save content.</li>
+  <li>To enable users to report safety-related information and contribute to community awareness about trail conditions and hazards.</li>
+  <li>To support organized expedition booking with departure selection, participant management, and reservation handling.</li>
+  <li>To provide personalized user profiles with activity history, saved content, expedition records, and a gamified experience through achievements and experience points.</li>
+  <li>To offer an administrative interface for managing treks, users, community content, safety reports, expedition data, and platform announcements.</li>
+</ol>
+
+<h2>4. Scope of the Project</h2>
+<div class="section-scope">
+<p>The current scope of Treksin covers the following modules:</p>
+<ul>
+  <li><strong>Trek Discovery:</strong> Browse, search, and filter trekking destinations by continent, country, difficulty, budget, and category across a global trek database.</li>
+  <li><strong>Trek Details:</strong> View detailed information including difficulty level, duration, distance, elevation gain, terrain type, best season, weather data, and pricing.</li>
+  <li><strong>Map-Based Exploration:</strong> Interactive map view using Leaflet and OpenStreetMap to explore trek locations geographically.</li>
+  <li><strong>AI-Assisted Planning:</strong> An integrated AI planner powered by a local server that provides trek recommendations, weather information, budget breakdowns, packing lists, and safety assessments through a conversational interface.</li>
+  <li><strong>Community Platform:</strong> Social features including posts with media uploads, story sharing, likes, comments, saves, shares, follows, user profiles, activity feeds, challenges, leaderboards, and group trek events.</li>
+  <li><strong>Safety Reporting:</strong> Community-driven safety reports covering trail hazards, weather concerns, wildlife issues, and other trekking-related safety information.</li>
+  <li><strong>Expedition Booking:</strong> Organized expedition management with departure date selection, participant registration, readiness confirmation, booking reference generation, and cancellation handling.</li>
+  <li><strong>User Profiles:</strong> Personalized profiles displaying trekking statistics, XP and level progression, followers and following, posted content, saved treks, and expedition bookings.</li>
+  <li><strong>Admin Panel:</strong> Web-based administration for managing treks, users, expedition departures and bookings, community moderation, safety reports, challenges, announcements, and user analytics.</li>
+</ul>
+</div>
+
+</div>
+
+<div class="page-break"></div>
+<div class="page">
+
+<h2>5. Major Features / Modules</h2>
+
+<h3>Trek Discovery &amp; Details</h3>
+<p>Users can browse a curated collection of treks organized by continent and country. Advanced filtering by difficulty, budget, and category allows targeted exploration. Each trek page displays comprehensive information including duration, distance, elevation, terrain, best season, weather, ratings, and pricing.</p>
+
+<h3>AI Trek Planner</h3>
+<p>A conversational AI assistant that generates personalized trek recommendations based on user preferences. It provides weather forecasts, budget calculations, packing lists, and safety assessments. The planner uses a local language model server and supports streaming responses for a real-time chat experience.</p>
+
+<h3>Community &amp; Social Features</h3>
+<p>A full social platform where users can create posts with image and video uploads, share 24-hour stories, like, comment, save, and share content. Users can follow each other, view activity feeds sorted by latest, popular, nearby, or following, and participate in challenges and leaderboards.</p>
+
+<h3>Safety Reports</h3>
+<p>Users can submit safety reports covering trail hazards, dangerous weather, wildlife concerns, and other issues. Reports are managed through the admin panel for review and resolution.</p>
+
+<h3>Expedition Booking</h3>
+<p>A structured booking system allowing users to select trek departures, specify participant details, complete a readiness checklist, and confirm reservations. Bookings are tracked with unique reference numbers and can be viewed or cancelled from the user's expedition dashboard.</p>
+
+<h3>User Profiles &amp; Gamification</h3>
+<p>Each user has a profile page displaying trekker level based on experience points, completed treks, total distance, highest elevation, followers and following, posted content, and saved treks. A six-tier level progression system ranges from Trail Starter to Trek Legend.</p>
+
+<h3>Admin Panel</h3>
+<p>A comprehensive administration interface with thirteen modules: Dashboard, Users, Treks, Expeditions, Departures, Bookings, Moderation, Safety Reports, Group Treks, Challenges, Announcements, Audit Log, and User Analytics.</p>
+
+<h2>6. Technology Stack</h2>
+<table>
+  <tr><th>Technology</th><th>Purpose</th></tr>
+  <tr><td>React + TypeScript</td><td>Frontend application framework and type-safe development</td></tr>
+  <tr><td>Vite</td><td>Development server and production build tooling</td></tr>
+  <tr><td>Tailwind CSS 3</td><td>Utility-first styling with custom theming</td></tr>
+  <tr><td>Framer Motion</td><td>Page transitions and interactive UI animations</td></tr>
+  <tr><td>GSAP + Lenis</td><td>Scroll-driven animations and smooth scrolling</td></tr>
+  <tr><td>Supabase (PostgreSQL)</td><td>Database, authentication, storage, and real-time subscriptions</td></tr>
+  <tr><td>Supabase Auth</td><td>Email/password and Google OAuth authentication</td></tr>
+  <tr><td>Leaflet + OpenStreetMap</td><td>Interactive map rendering for trek locations</td></tr>
+  <tr><td>Express.js + Ollama</td><td>Local AI server for trek planning and recommendations</td></tr>
+  <tr><td>Zustand</td><td>Client-side state management</td></tr>
+  <tr><td>React Router v7</td><td>Client-side routing with nested layouts</td></tr>
+  <tr><td>Recharts</td><td>Data visualization for admin analytics</td></tr>
+</table>
+
+<h2>7. Methodology / Working</h2>
+<p>A user visiting Treksin can create an account or sign in using email or Google OAuth. Once authenticated, the user can explore trekking destinations using text search, filters, and an interactive map view. Opening a trek reveals detailed information about difficulty, duration, elevation, terrain, weather, and pricing. The user may save treks for later reference or proceed to the AI Planner, which provides personalized recommendations and generates itineraries through a conversational interface. Within the community section, users can browse posts, upload their own trekking experiences, share stories, interact with other trekkers through likes and comments, and follow users with shared interests. Safety-related information can be reported and viewed. For organized expeditions, users can select a departure date, register participants, complete a readiness checklist, and confirm their booking. All bookings are accessible from the user's expedition dashboard. Administrators manage the platform through a dedicated admin panel with modules for users, treks, bookings, community moderation, safety reports, and platform announcements.</p>
+
+<h2>8. Future Enhancements</h2>
+<div class="future">
+<p>Treksin is designed as an extensible platform. Features planned for future development include deeper integration with real-world trek data sources, real-time weather and trail-condition updates, enhanced AI personalization, offline trail access through progressive web app capabilities, emergency location-sharing features, payment gateway integration for expedition bookings, and a native mobile application.</p>
+</div>
+
+<h2>9. Expected Outcome / Conclusion</h2>
+<p>Treksin aims to deliver a unified, user-friendly web platform for trekking discovery, AI-assisted planning, community interaction, safety awareness, and expedition management. The project demonstrates practical application of modern web technologies including component-based frontend architecture, server-side AI integration, real-time database operations, authentication and authorization, interactive mapping, smooth animations, and responsive design. Treksin provides a functional foundation for a trekking-centric digital ecosystem and is structured to accommodate future enhancements as the platform evolves.</p>
+
+</div>
+
+</body>
+</html>
