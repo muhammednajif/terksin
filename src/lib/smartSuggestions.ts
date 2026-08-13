@@ -10,7 +10,7 @@ const STOP_WORDS = new Set(['the', 'a', 'an', 'to', 'of', 'in', 'for', 'and', 't
 
 let TREKS_CACHE: Trek[] | null = null;
 function allTreks(): Trek[] {
-  if (!TREKS_CACHE) TREKS_CACHE = allTreks();
+  if (!TREKS_CACHE) TREKS_CACHE = getAllTreks();
   return TREKS_CACHE;
 }
 
