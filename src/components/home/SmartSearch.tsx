@@ -96,7 +96,7 @@ export const SmartSearch = ({ query, onQueryChange, onSearch }: SmartSearchProps
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden z-[99999] text-left"
+            className="absolute top-full left-0 sm:left-auto sm:right-0 mt-2 w-full sm:w-[420px] bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden z-[99999] text-left"
           >
             <div className="px-4 py-2.5 flex items-center gap-2 border-b border-black/5">
               {showPopular ? (
@@ -120,33 +120,36 @@ export const SmartSearch = ({ query, onQueryChange, onSearch }: SmartSearchProps
                   key={s.trek.id}
                   onMouseEnter={() => setHighlighted(i)}
                   onClick={() => selectSuggestion(s)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
+                  className={`w-full flex items-center gap-2.5 sm:gap-3 px-3 sm:px-4 py-3 text-left transition-colors ${
                     i === highlighted ? 'bg-brand-emerald/10' : 'hover:bg-black/[0.03]'
                   }`}
                 >
-                  <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl overflow-hidden flex-shrink-0">
                     <img src={s.trek.image} alt="" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-black truncate flex items-center gap-1.5">
-                      {s.trek.title}
+                    <p className="text-[13px] sm:text-sm font-semibold text-black truncate flex items-center gap-1.5">
+                      <span className="truncate">{s.trek.title}</span>
                       {i === 0 && !showPopular && (
                         <span className="bg-brand-emerald/15 text-brand-emerald text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0">BEST</span>
                       )}
                     </p>
-                    <p className="text-xs text-black/50 truncate flex items-center gap-1">
+                    <p className="text-[11px] sm:text-xs text-black/50 truncate flex items-center gap-1">
                       <MapPin className="w-3 h-3 flex-shrink-0" />
-                      {s.trek.location} · {s.trek.duration} · {s.trek.difficulty}
+                      <span className="truncate">{s.trek.location} · {s.trek.duration} · {s.trek.difficulty}</span>
+                      <span className="ml-auto flex-shrink-0 sm:hidden">
+                        <span className="text-[11px] font-bold text-black/80">${s.trek.price}</span>
+                      </span>
                     </p>
                     <p className="text-[11px] text-brand-emerald mt-0.5 truncate">{s.reason}</p>
                   </div>
-                  <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                  <div className="flex-col items-end gap-1 flex-shrink-0 hidden sm:flex">
                     <span className="text-sm font-bold text-black/80">${s.trek.price}</span>
                     <span className="text-[10px] text-black/40 flex items-center gap-0.5">
                       ★ {s.trek.rating}
                     </span>
                   </div>
-                  <ArrowUpRight className="w-4 h-4 text-black/30 flex-shrink-0" />
+                  <ArrowUpRight className="w-4 h-4 text-black/30 flex-shrink-0 hidden sm:block" />
                 </button>
               ))}
             </div>
