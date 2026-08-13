@@ -38,7 +38,7 @@ export const Hero = () => {
     navigate({ pathname: '/explore', search: createSearchParams(params).toString() });
   };
   return (
-    <div className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center pt-20">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
       <div className="absolute inset-0 bg-black/60" />
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-12 flex flex-col items-center text-center mt-16 md:mt-20">
@@ -97,10 +97,6 @@ export const Hero = () => {
                 {
                   name: 'offset',
                   options: { offset: [0, 10] },
-                },
-                {
-                  name: 'flip',
-                  options: { fallbackPlacements: ['top-end', 'bottom-start', 'bottom-end'] },
                 },
                 {
                   name: 'preventOverflow',
