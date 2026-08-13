@@ -4,6 +4,7 @@ import { TREKS } from '@/data/mockData';
 import { GLOBAL_TREKS } from '@/data/globalTreks';
 import type { Trek } from '@/data/globalTreks';
 import { Map as MapIcon, Grid, List, Search, Star, MapPin, Clock, Navigation, Globe2, SlidersHorizontal, ArrowUpDown, X, Radar } from 'lucide-react';
+import { getRecommendationsFor } from '@/lib/smartSuggestions';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useStore } from '@/store/useStore';
 import { MapView } from '@/components/map/MapView';
@@ -269,6 +270,13 @@ export const Explore = () => {
               </div>
             )}
 
+            {/* Smart Recommendations */}
+            {!isFetchingTrails && !searchQuery && !selectedContinent && !selectedCountry && filteredTreks.length > 0 && (
+              <RecommendedRow
+                onSelect={(trek) => navigate(`/treks/${trek.id}`)}
+              />
+            )}
+
             {/* Results */}
             {!isFetchingTrails && (
               <>
@@ -383,3 +391,41 @@ const MountainIcon = () => (
     <path d="M8 3 2 21h20L12 3Z" />
   </svg>
 );
+
+const RecommendedRow = ({ onSelect }: { onSelect: (trek: Trek) => void }) => {
+  const recs = getRecommendationsFor();
+  if (!recs.length) return null;
+  return (
+    <div className="mb-8">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="p-2 bg-brand-emerald/15 rounded-xl text-brand-emerald">
+            <Radar className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold leading-tight">Recommended for You</h2>
+            <p className="text-xs text-muted-foreground">Smart picks based on ratings, reviews & activity</p>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        {recs.map(r => (
+          <div key={r.trek.id} onClick={() => onSelect(r.trek)}
+            className="group cursor-pointer rounded-2xl overflow-hidden bg-white border border-black/5 hover:border-brand-emerald/30 hover:shadow-lg transition-all duration-300">
+            <div className="relative h-28 overflow-hidden">
+              <img src={r.trek.image} alt={r.trek.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              <span className="absolute bottom-1.5 right-1.5 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-white/85 backdrop-blur-sm text-[10px] font-bold shadow-sm">
+                <Star className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" /> {r.trek.rating}
+              </span>
+            </div>
+            <div className="p-2.5">
+              <h3 className="text-xs font-bold truncate">{r.trek.title}</h3>
+              <p className="text-[10px] text-brand-emerald truncate mt-0.5">{r.reason}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};

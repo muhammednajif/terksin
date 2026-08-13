@@ -4,6 +4,7 @@ import { useState, forwardRef } from 'react';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 import { useStore } from '@/store/useStore';
 import { FlipWords } from '@/components/ui/FlipWords';
+import { SmartSearch } from '@/components/home/SmartSearch';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -73,15 +74,7 @@ export const Hero = () => {
         >
           <div className="flex items-center gap-3 px-4 md:px-6 py-3 md:py-4 bg-transparent rounded-2xl md:rounded-full w-full">
             <MapPin className="w-5 h-5 text-brand-emerald flex-shrink-0" />
-            <input 
-              type="text" 
-              placeholder="Where do you want to go?" 
-              aria-label="Search location"
-              value={localQuery}
-              onChange={(e) => setLocalQuery(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              className="bg-transparent border-none text-white focus:outline-none w-full text-sm md:text-base placeholder:text-white/40"
-            />
+            <SmartSearch query={localQuery} onQueryChange={setLocalQuery} onSearch={handleSearch} />
           </div>
           <div className="h-px md:hidden bg-white/10 mx-4" />
           <div className="flex items-center gap-3 px-4 md:px-6 py-3 md:py-4 bg-transparent w-full border-t md:border-t-0 md:border-l border-white/10 md:border-white/20 relative">
