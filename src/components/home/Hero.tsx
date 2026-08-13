@@ -95,12 +95,12 @@ export const Hero = () => {
               dateFormat="MMM d, yyyy"
               monthsShown={1}
               portalId="datepicker-portal"
-              popperPlacement="bottom-start"
+              popperPlacement="top-start"
               popperProps={{ strategy: 'fixed' }}
               popperModifiers={[
                 {
                   name: 'flip',
-                  options: { fallbackPlacements: ['bottom-end', 'top-start', 'top-end'] },
+                  options: { fallbackPlacements: ['top-end', 'bottom-start', 'bottom-end'] },
                 },
                 {
                   name: 'preventOverflow',
