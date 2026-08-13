@@ -640,9 +640,9 @@ export async function emitGroupTyping(groupId: string, userId: string, isTyping:
 
 // ─── Aliases & Missing Exports ────────────────────────
 
-export async function subscribeToGroupList(_userId: string, onUpdate: () => void) {
+export function subscribeToGroupList(userId: string, onUpdate: () => void) {
   const channel = supabase
-    .channel('group-list')
+    .channel(`group-list:${userId}`)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'group_messages' }, () => onUpdate())
     .on('postgres_changes', { event: '*', schema: 'public', table: 'groups' }, () => onUpdate())
     .subscribe();

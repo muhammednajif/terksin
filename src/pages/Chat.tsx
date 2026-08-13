@@ -15,7 +15,7 @@ import type { ChatConversation, ChatMessage, Profile, Group } from '@/lib/databa
 import { IconSearch, IconX, IconUsers, IconMessage, IconPlus, IconChevronRight, IconMountain } from '@tabler/icons-react';
 
 export function Chat() {
-  const { user } = useAuth();
+  const { user, setShowAuthModal } = useAuth();
   const onlineUserIds = useStore(s => s.onlineUserIds);
   const setChatUnreadCount = useStore(s => s.setChatUnreadCount);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -236,7 +236,13 @@ export function Chat() {
         <div className="text-center p-8">
           <IconMessage className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h2 className="text-xl font-bold mb-2">Sign in to see your messages</h2>
-          <p className="text-sm text-gray-500">Chat with trekkers and manage your groups</p>
+          <p className="text-sm text-gray-500 mb-6">Chat with trekkers and manage your groups</p>
+          <button
+            onClick={() => setShowAuthModal(true)}
+            className="px-6 py-3 bg-brand-emerald text-white text-sm font-semibold rounded-xl hover:bg-emerald-600 transition-colors"
+          >
+            Sign In
+          </button>
         </div>
       </div>
     );

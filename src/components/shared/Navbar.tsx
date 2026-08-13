@@ -13,6 +13,7 @@ export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const chatUnreadCount = useStore(s => s.chatUnreadCount);
   const showToast = useStore(state => state.showToast);
   const navigate = useNavigate();
@@ -111,7 +112,7 @@ export const Navbar = () => {
     { to: '/explore', label: 'Explore' },
     { to: '/community', label: 'Community' },
     { to: '/ai-planner', label: 'Planner', badge: 'AI' as const },
-    ...(user ? [{ to: '/chat', label: 'Messages' as const }] : []),
+    { to: '/chat', label: 'Messages' as const },
   ];
 
   return (
@@ -135,6 +136,7 @@ export const Navbar = () => {
             <Link
               key={link.to}
               to={link.to}
+              onClick={link.to === '/chat' && !user ? (e) => { e.preventDefault(); setShowAuthModal(true); } : undefined}
               className="relative px-4 py-2 text-sm font-medium text-black/80 hover:text-black transition-colors rounded-full hover:bg-black/5 flex items-center gap-1"
             >
               {link.badge && <span className="bg-brand-emerald/20 text-brand-emerald px-2 py-0.5 rounded-full text-xs">{link.badge}</span>}
@@ -222,7 +224,7 @@ export const Navbar = () => {
             <div className="relative top-20 mx-4 bg-white rounded-2xl shadow-2xl border border-black/10 p-6">
               <div className="flex flex-col gap-2">
                 {navLinks.map(link => (
-                  <Link key={link.to} to={link.to} onClick={() => setMobileMenuOpen(false)}
+                  <Link key={link.to} to={link.to} onClick={(e) => { setMobileMenuOpen(false); if (link.to === '/chat' && !user) { e.preventDefault(); setShowAuthModal(true); } }}
                     className="flex items-center gap-2 px-4 py-3 rounded-xl hover:bg-black/5 transition-colors text-sm font-medium">
                     {link.badge && <span className="bg-brand-emerald/20 text-brand-emerald px-2 py-0.5 rounded-full text-xs">{link.badge}</span>}
                     {link.label}
