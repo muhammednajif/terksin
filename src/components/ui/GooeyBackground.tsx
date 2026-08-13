@@ -4,7 +4,7 @@ export const GooeyBackground = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none bg-white z-0">
       <div className="absolute inset-0 gooey flex items-center justify-center">
-        
+
         {/* Blob 1 */}
         <motion.div
           animate={{
@@ -15,9 +15,10 @@ export const GooeyBackground = () => {
           transition={{
             duration: 20,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
-          className="absolute w-96 h-96 md:w-[600px] md:h-[600px] bg-black/10 rounded-full blur-[80px]"
+          style={{ background: 'radial-gradient(circle, rgba(0,0,0,0.08) 0%, transparent 70%)' }}
+          className="absolute w-96 h-96 md:w-[600px] md:h-[600px]"
         />
 
         {/* Blob 2 */}
@@ -31,9 +32,10 @@ export const GooeyBackground = () => {
             duration: 25,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 2
+            delay: 2,
           }}
-          className="absolute w-[400px] h-[400px] md:w-[800px] md:h-[800px] bg-black/5 rounded-full blur-[100px]"
+          style={{ background: 'radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%)' }}
+          className="absolute w-[400px] h-[400px] md:w-[800px] md:h-[800px]"
         />
 
         {/* Blob 3 */}
@@ -47,16 +49,20 @@ export const GooeyBackground = () => {
             duration: 18,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 4
+            delay: 4,
           }}
-          className="absolute w-80 h-80 md:w-[500px] md:h-[500px] bg-black/10 rounded-full blur-[60px]"
+          style={{ background: 'radial-gradient(circle, rgba(0,0,0,0.08) 0%, transparent 70%)' }}
+          className="absolute w-80 h-80 md:w-[500px] md:h-[500px]"
         />
 
         {/* Center Static Anchor Blob */}
-        <div className="absolute w-64 h-64 bg-black/5 rounded-full blur-[50px]" />
-        
+        <div
+          style={{ background: 'radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%)' }}
+          className="absolute w-64 h-64"
+        />
+
       </div>
-      
+
       {/* Overlay to dim the blobs slightly for text readability */}
       <div className="absolute inset-0 bg-white/40 z-10" />
     </div>

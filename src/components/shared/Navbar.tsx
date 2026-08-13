@@ -5,62 +5,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '@/store/useStore';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabase';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const chatUnreadCount = useStore(s => s.chatUnreadCount);
   const showToast = useStore(state => state.showToast);
   const navigate = useNavigate();
   const { user, profile, signOut, setShowAuthModal } = useAuth();
   const navRef = useRef<HTMLDivElement>(null);
   const lastScrollRef = useRef(0);
-
-  useGSAP(() => {
-    const nav = navRef.current;
-    if (!nav) return;
-
-    gsap.set(nav, { y: 0 });
-
-    ScrollTrigger.create({
-      start: 'top -50',
-      onUpdate: self => {
-        const current = window.scrollY;
-        const dir = current > lastScrollRef.current ? 'down' : 'up';
-        lastScrollRef.current = current;
-
-        if (current > 80) {
-          gsap.to(nav, {
-            y: dir === 'down' ? -100 : 0,
-            duration: 0.4,
-            ease: 'power2.out',
-            overwrite: 'auto',
-          });
-        } else {
-          gsap.to(nav, { y: 0, duration: 0.3, overwrite: 'auto' });
-        }
-      },
-    });
-
-    ScrollTrigger.create({
-      start: 'top -30',
-      end: 'top -150',
-      onUpdate: self => {
-        const progress = Math.min(self.progress * 1.5, 1);
-        gsap.to(nav, {
-          '--nav-bg-opacity': progress,
-          '--nav-blur': progress * 12,
-          duration: 0.1,
-          overwrite: 'auto',
-        });
-      },
-    });
-  }, []);
 
   const moreMenuRef = useRef<HTMLDivElement>(null);
 
@@ -80,7 +37,10 @@ export const Navbar = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 50);
+        const y = window.scrollY;
+        setScrolled(y > 50);
+        setHidden(y > 80 && y > lastScrollRef.current);
+        lastScrollRef.current = y;
         ticking = false;
       });
     };
@@ -130,8 +90,8 @@ export const Navbar = () => {
     <>
       <div
         ref={navRef}
-        className="fixed top-0 left-0 right-0 z-50 px-4 md:px-12 grid grid-cols-2 md:grid-cols-3 items-center"
-        style={{ paddingTop: '12px', paddingBottom: '12px' }}
+        className="fixed top-0 left-0 right-0 z-50 px-4 md:px-12 grid grid-cols-2 md:grid-cols-3 items-center transition-transform duration-300 will-change-transform"
+        style={{ paddingTop: '12px', paddingBottom: '12px', transform: hidden ? 'translateY(-110%)' : 'translateY(0)' }}
       >
         <Link to="/" className="flex items-center gap-1.5 md:gap-2 group justify-self-start bg-white border border-black/10 rounded-full px-2 md:px-3 py-2">
           <div className="bg-brand-emerald/20 p-1.5 md:p-2 rounded-xl group-hover:bg-brand-emerald/30 transition-colors">
