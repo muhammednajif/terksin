@@ -99,6 +99,10 @@ export const Hero = () => {
               popperProps={{ strategy: 'fixed' }}
               popperModifiers={[
                 {
+                  name: 'offset',
+                  options: { offset: [0, 10] },
+                },
+                {
                   name: 'flip',
                   options: { fallbackPlacements: ['top-end', 'bottom-start', 'bottom-end'] },
                 },
