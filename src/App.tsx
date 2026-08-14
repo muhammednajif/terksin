@@ -7,6 +7,7 @@ import { AdminRouteGuard } from './components/admin/AdminRouteGuard';
 
 const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
 const Explore = lazy(() => import('./pages/Explore').then(m => ({ default: m.Explore })));
+const NearbyTreks = lazy(() => import('./pages/NearbyTreks').then(m => ({ default: m.NearbyTreks })));
 const TrekDetails = lazy(() => import('./pages/TrekDetails').then(m => ({ default: m.TrekDetails })));
 const ExpeditionBooking = lazy(() => import('./pages/ExpeditionBooking').then(m => ({ default: m.ExpeditionBooking })));
 const MyExpeditions = lazy(() => import('./pages/MyExpeditions').then(m => ({ default: m.MyExpeditions })));
@@ -60,6 +61,7 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />
             <Route path="explore" element={<Explore />} />
+            <Route path="explore/nearby" element={<NearbyTreks />} />
             <Route element={<CommunityLayout />}>
               <Route path="community" element={<Community />} />
               <Route path="community/post/:id" element={<Community />} />
