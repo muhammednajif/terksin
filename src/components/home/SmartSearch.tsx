@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 import { Search, TrendingUp, MapPin, ArrowUpRight } from 'lucide-react';
 import { searchTreksSmart, getTopRecommended, type SmartSuggestion } from '@/lib/smartSuggestions';
@@ -103,7 +104,7 @@ export const SmartSearch = ({ query, onQueryChange, onSearch }: SmartSearchProps
     }
   };
 
-  const panel = open && suggestions.length > 0 && pos ? (
+  const panel = open && suggestions.length > 0 && pos ? createPortal(
     <div id="smart-search-popup">
       <div
         style={{ top: pos.top + 8, left: pos.left, width: Math.min(pos.width, 420) }}
@@ -172,7 +173,8 @@ export const SmartSearch = ({ query, onQueryChange, onSearch }: SmartSearchProps
             See all results for "{query}" →
           </button>
       </div>
-    </div>
+    </div>,
+    document.body
   ) : null;
 
   return (

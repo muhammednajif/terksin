@@ -141,3 +141,53 @@ export function getRecommendationsFor(
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
 }
+
+export interface UserCoords {
+  latitude: number;
+  longitude: number;
+}
+
+function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+export function formatDistance(km: number): string {
+  if (km < 1) return `${Math.round(km * 1000)}m away`;
+  if (km < 100) return `${Math.round(km)}km away`;
+  return `${Math.round(km / 100) * 100}km away`;
+}
+
+export interface NearbySuggestion extends SmartSuggestion {
+  distanceKm: number;
+  distanceLabel: string;
+  nearestTo: string;
+}
+
+export function getNearestTreks(coords: UserCoords, limit = 6): NearbySuggestion[] {
+  const all = allTreks().filter(t => typeof t.lat === 'number' && typeof t.lng === 'number');
+  return all
+    .map(trek => {
+      const distanceKm = haversineKm(coords.latitude, coords.longitude, trek.lat as number, trek.lng as number);
+      const country = trek.country || 'your region';
+      let reason = `Closest to you — ${formatDistance(distanceKm)}`;
+      if (trek.rating && trek.rating >= 4.7) reason = `${formatDistance(distanceKm)} · Loved by the community`;
+      return {
+        trek,
+        score: Math.max(0, 1000 - distanceKm) + (trek.rating || 0) * 20,
+        reason,
+        distanceKm,
+        distanceLabel: formatDistance(distanceKm),
+        nearestTo: country,
+      };
+    })
+    .sort((a, b) => a.distanceKm - b.distanceKm)
+    .slice(0, limit);
+}

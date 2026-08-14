@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { TREKS } from '@/data/mockData';
 import { GLOBAL_TREKS } from '@/data/globalTreks';
 import type { Trek } from '@/data/globalTreks';
-import { Map as MapIcon, Grid, List, Search, Star, MapPin, Clock, Navigation, Globe2, SlidersHorizontal, ArrowUpDown, X, Radar } from 'lucide-react';
-import { getRecommendationsFor } from '@/lib/smartSuggestions';
+import { Map as MapIcon, Grid, List, Search, Star, MapPin, Clock, Navigation, Globe2, SlidersHorizontal, ArrowUpDown, X, Radar, LocateFixed } from 'lucide-react';
+import { getRecommendationsFor, getNearestTreks, type NearbySuggestion } from '@/lib/smartSuggestions';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useStore } from '@/store/useStore';
+import { useGeolocation } from '@/hooks/useGeolocation';
 import { MapView } from '@/components/map/MapView';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
@@ -28,6 +29,28 @@ export const Explore = () => {
   const [showMap, setShowMap] = useState(false);
   const [categoryParam, setCategoryParam] = useState<string | null>(searchParams.get('category'));
   const { searchQuery, setSearchQuery, filters, setFilters, selectedCategory, setSelectedCategory, selectedContinent, setSelectedContinent, selectedCountry, setSelectedCountry, isFetchingTrails, osmTreks, fetchLiveTrails, showToast } = useStore();
+  const { coords, requestLocation } = useGeolocation();
+  const [nearby, setNearby] = useState<NearbySuggestion[] | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (coords) {
+      setNearby(getNearestTreks(coords, 6));
+      setLocationError(null);
+    }
+  }, [coords]);
+
+  const handleFindNearby = async () => {
+    setLocating(true);
+    setLocationError(null);
+    const c = await requestLocation();
+    setLocating(false);
+    if (!c) {
+      setNearby(null);
+      setLocationError('Could not access your location. Enable location access to see treks near you.');
+    }
+  };
 
   useEffect(() => {
     const cat = searchParams.get('category');
@@ -272,9 +295,19 @@ export const Explore = () => {
 
             {/* Smart Recommendations */}
             {!isFetchingTrails && !searchQuery && !selectedContinent && !selectedCountry && filteredTreks.length > 0 && (
-              <RecommendedRow
-                onSelect={(trek) => navigate(`/treks/${trek.id}`)}
-              />
+              <>
+                <NearYouRow
+                  nearby={nearby}
+                  locating={locating}
+                  error={locationError}
+                  hasLocation={!!coords}
+                  onFindNearby={handleFindNearby}
+                  onSelect={(trek) => navigate(`/treks/${trek.id}`)}
+                />
+                <RecommendedRow
+                  onSelect={(trek) => navigate(`/treks/${trek.id}`)}
+                />
+              </>
             )}
 
             {/* Results */}
@@ -391,6 +424,75 @@ const MountainIcon = () => (
     <path d="M8 3 2 21h20L12 3Z" />
   </svg>
 );
+
+const NearYouRow = ({ nearby, locating, error, hasLocation, onFindNearby, onSelect }: {
+  nearby: NearbySuggestion[] | null;
+  locating: boolean;
+  error: string | null;
+  hasLocation: boolean;
+  onFindNearby: () => void;
+  onSelect: (trek: Trek) => void;
+}) => {
+  return (
+    <div className="mb-8">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <div className="flex items-center gap-2">
+          <div className="p-2 bg-brand-emerald/15 rounded-xl text-brand-emerald">
+            <LocateFixed className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold leading-tight">Treks Near You</h2>
+            <p className="text-xs text-muted-foreground">AI picks the closest trails from your location</p>
+          </div>
+        </div>
+        {!hasLocation && !locating && !nearby && (
+          <button
+            onClick={onFindNearby}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-emerald/10 text-brand-emerald text-sm font-semibold hover:bg-brand-emerald hover:text-white transition-all"
+          >
+            <LocateFixed className="w-4 h-4" /> Use my location
+          </button>
+        )}
+        {locating && (
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="w-4 h-4 border-2 border-brand-emerald border-t-transparent rounded-full animate-spin" />
+            Finding nearest treks...
+          </div>
+        )}
+      </div>
+
+      {error && (
+        <p className="text-xs text-red-500 mb-3 bg-red-500/5 border border-red-500/20 rounded-xl px-4 py-2.5">{error}</p>
+      )}
+
+      {nearby && nearby.length > 0 ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {nearby.map(r => (
+            <div key={r.trek.id} onClick={() => onSelect(r.trek)}
+              className="group cursor-pointer rounded-2xl overflow-hidden bg-white border border-black/5 hover:border-brand-emerald/30 hover:shadow-lg transition-all duration-300">
+              <div className="relative h-28 overflow-hidden">
+                <img src={r.trek.image} alt={r.trek.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                <span className="absolute bottom-1.5 left-1.5 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-brand-emerald text-white text-[10px] font-bold shadow-sm">
+                  <LocateFixed className="w-2.5 h-2.5" /> {r.distanceLabel}
+                </span>
+                <span className="absolute bottom-1.5 right-1.5 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-white/85 backdrop-blur-sm text-[10px] font-bold shadow-sm">
+                  <Star className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" /> {r.trek.rating}
+                </span>
+              </div>
+              <div className="p-2.5">
+                <h3 className="text-xs font-bold truncate">{r.trek.title}</h3>
+                <p className="text-[10px] text-brand-emerald truncate mt-0.5">{r.trek.location}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : !hasLocation && !locating && !error ? (
+        <p className="text-xs text-muted-foreground">Share your location and the AI will rank every trail by distance from you.</p>
+      ) : null}
+    </div>
+  );
+};
 
 const RecommendedRow = ({ onSelect }: { onSelect: (trek: Trek) => void }) => {
   const recs = getRecommendationsFor();
